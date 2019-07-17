@@ -1,9 +1,12 @@
 {
   "name": "gatsby-plugin-generate-typings",
-  "version": "1.0.0",
+  "version": "0.9.5",
   "author": "Stefan Baur <stefan.baur@neugelb.com>",
   "description": "Plugin that automatically generates TypeScript typings from the graphql schema",
   "main": "index.js",
+  "repository": {
+    "url": "https://github.com/neugelb/gatsby-plugin-generate-typings"
+  },
   "keywords": [
     "gatsby",
     "gatsby-plugin",
@@ -12,11 +15,10 @@
     "codegen",
     "typings"
   ],
-  "scripts": {},
-  "license": "ISC",
-  "peerDependencies": {
-    "gatsby": "^2.0.0"
+  "scripts": {
+    "build": "tsc -p ./"
   },
+  "license": "ISC",
   "dependencies": {
     "@graphql-codegen/core": "^1.4.0",
     "@graphql-codegen/introspection": "^1.4.0",
@@ -25,6 +27,14 @@
     "@types/graphql": "^14.2.2",
     "fs-extra": "^8.1.0",
     "gatsby-node-helpers": "^0.3.0",
-    "graphql-toolkit": "^0.3.4"
+    "graphql": "^14.4.2",
+    "graphql-toolkit": "^0.4.0",
+    "graphql-tag-pluck": "^0.8.3"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.0.0",
+    "@types/node": "^12.6.7",
+    "gatsby": "^2.13.27",
+    "typescript": "^3.5.3"
   }
 }

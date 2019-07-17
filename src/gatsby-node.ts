@@ -1,23 +1,23 @@
-import { ParentSpanPluginArgs, PluginOptions, PluginCallback } from 'gatsby';
-import { loadDocuments } from 'graphql-toolkit';
-import { codegen } from '@graphql-codegen/core';
-import * as fs from 'fs-extra';
+import { ParentSpanPluginArgs, PluginOptions, PluginCallback } from "gatsby";
+import { loadDocuments } from "graphql-toolkit";
+import { codegen } from "@graphql-codegen/core";
+import * as fs from "fs-extra";
 
-import { plugin as typescriptPlugin } from '@graphql-codegen/typescript';
-import { plugin as operationsPlugin } from '@graphql-codegen/typescript-operations';
+import { plugin as typescriptPlugin } from "@graphql-codegen/typescript";
+import { plugin as operationsPlugin } from "@graphql-codegen/typescript-operations";
 
-import { IntrospectionQuery } from 'graphql';
+import { IntrospectionQuery } from "graphql";
 const {
   introspectionQuery,
   graphql,
   buildClientSchema,
   parse,
-  printSchema,
-} = require('gatsby/graphql');
+  printSchema
+} = require("gatsby/graphql");
 
-const path = require('path');
+const path = require("path");
 
-const defaultLocation = path.resolve(process.cwd(), 'graphql-types.d.ts');
+const defaultLocation = path.resolve(process.cwd(), "graphql-types.d.ts");
 
 exports.onPostBootstrap = async (
   args: ParentSpanPluginArgs,
@@ -31,7 +31,7 @@ exports.onPostBootstrap = async (
   const { schema, program } = store.getState();
   const { directory } = program;
 
-  const docPromises = ['./src/**/*.{ts,tsx}', './.cache/fragments/*.js'].map(
+  const docPromises = ["./src/**/*.{ts,tsx}", "./.cache/fragments/*.js"].map(
     docGlob => {
       const _docGlob = path.join(directory, docGlob);
       return loadDocuments(_docGlob);
@@ -48,29 +48,29 @@ exports.onPostBootstrap = async (
   const config = {
     documents,
     config: {},
-    filename: dest,
+    filename: "", //dest,
     schema: parsedSchema,
     pluginMap: {
       typescript: {
-        plugin: typescriptPlugin,
+        plugin: typescriptPlugin
       },
       typescriptOperation: {
-        plugin: operationsPlugin,
-      },
+        plugin: operationsPlugin
+      }
     },
     plugins: [
       {
         typescript: {
           skipTypename: true,
-          enumsAsTypes: true,
-        },
+          enumsAsTypes: true
+        }
       } as any,
       {
         typescriptOperation: {
-          skipTypename: true,
-        },
-      } as any,
-    ],
+          skipTypename: true
+        }
+      } as any
+    ]
   };
 
   const output = await codegen(config);
@@ -79,4 +79,7 @@ exports.onPostBootstrap = async (
   fs.outputFileSync(dest, output);
 
   reporter.info(`[gatsby-plugin-generate-typings] Wrote typings to ${dest}`);
+
+  // tell gatsby we are done
+  callback && callback(null);
 };
