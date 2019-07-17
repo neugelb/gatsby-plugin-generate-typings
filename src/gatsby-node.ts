@@ -48,7 +48,7 @@ exports.onPostBootstrap = async (
   const config = {
     documents,
     config: {},
-    filename: "", //dest,
+    filename: dest,
     schema: parsedSchema,
     pluginMap: {
       typescript: {
