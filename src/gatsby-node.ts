@@ -1,7 +1,8 @@
 import { ParentSpanPluginArgs, PluginOptions, PluginCallback } from "gatsby";
-import { loadDocuments } from "graphql-toolkit";
+// import { loadDocuments } from 'graphql-toolkit';
 import { codegen } from "@graphql-codegen/core";
 import * as fs from "fs-extra";
+// import * as glob from 'glob';
 
 import { plugin as typescriptPlugin } from "@graphql-codegen/typescript";
 import { plugin as operationsPlugin } from "@graphql-codegen/typescript-operations";
@@ -28,17 +29,35 @@ exports.onPostBootstrap = async (
   const dest: string = (options.dest as string) || defaultLocation;
 
   // get the schema and load all graphql queries from pages
-  const { schema, program } = store.getState();
-  const { directory } = program;
+  const { schema } = store.getState();
 
-  const docPromises = ["./src/**/*.{ts,tsx}", "./.cache/fragments/*.js"].map(
-    docGlob => {
-      const _docGlob = path.join(directory, docGlob);
-      return loadDocuments(_docGlob);
-    }
-  );
-  const results = await Promise.all(docPromises);
-  const documents = results.reduce((acc, cur) => acc.concat(cur), []);
+  // automatic typings for queries disabled atm
+  // const { schema, program } = store.getState();
+  // const { directory } = program;
+  // const docFiles: String[] = [];
+  // docFiles.push(
+  //  ...glob
+  //    .sync('./src/**/*.{ts,tsx}', {})
+  //    .filter(fileName => fileName.indexOf('.test') < 0)
+  // );
+  // docFiles.push(
+  //  ...glob
+  //    .sync('./.cache/fragments/*.js', {})
+  //    .filter(fileName => fileName.indexOf('.test') < 0)
+  // );
+
+  // const docPromises = docFiles.map(async docGlob => {
+  //  const _docGlob = path.join(directory, docGlob);
+  //  try {
+  //    const doc = await loadDocuments(_docGlob, {});
+  //    return doc;
+  //  } catch (e) {
+  //    reporter.error('error when trying to parse schema, ignoring', e);
+  //    return Promise.resolve([]);
+  //  }
+  // });
+  // const results = await Promise.all(docPromises);
+  // const documents = results.reduce((acc, cur) => acc.concat(cur), []);
 
   const res = await graphql(schema, introspectionQuery);
   const introspectSchema = res.data as IntrospectionQuery;
@@ -46,7 +65,8 @@ exports.onPostBootstrap = async (
 
   // generate typings from schema
   const config = {
-    documents,
+    // documents,
+    documents: [],
     config: {},
     filename: dest,
     schema: parsedSchema,

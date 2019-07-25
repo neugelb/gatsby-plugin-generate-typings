@@ -1,2 +1,5 @@
 **
 !gatsby-node.js
+src
+tsconfig.json
+yarn.lock
