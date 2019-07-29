@@ -81,13 +81,13 @@ exports.onPostBootstrap = async (
     plugins: [
       {
         typescript: {
-          skipTypename: true,
+          skipTypename: false,
           enumsAsTypes: true
         }
       } as any,
       {
         typescriptOperation: {
-          skipTypename: true
+          skipTypename: false
         }
       } as any
     ]
