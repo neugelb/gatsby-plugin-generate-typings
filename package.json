@@ -1,6 +1,6 @@
 {
   "name": "gatsby-plugin-generate-typings",
-  "version": "0.9.8-r1",
+  "version": "0.9.9",
   "author": "Stefan Baur <stefan.baur@neugelb.com>",
   "description": "Plugin that automatically generates TypeScript typings from the graphql schema",
   "main": "index.js",
