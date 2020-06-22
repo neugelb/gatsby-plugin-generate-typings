@@ -24,10 +24,10 @@
     "@graphql-codegen/introspection": "^1.4.0",
     "@graphql-codegen/typescript": "^1.4.0",
     "@graphql-codegen/typescript-operations": "^1.4.0",
-    "@types/graphql": "^14.2.2",
+    "@types/graphql": "^14.5.0",
     "fs-extra": "^8.1.0",
     "gatsby-node-helpers": "^0.3.0",
-    "graphql": "^14.4.2",
+    "graphql": "^14.5.0",
     "graphql-tag-pluck": "^0.8.3",
     "graphql-toolkit": "^0.4.0",
     "ts-node": "^8.3.0"
