@@ -1,5 +1,6 @@
 import { ParentSpanPluginArgs, PluginOptions, PluginCallback } from "gatsby";
-// import { loadDocuments } from 'graphql-toolkit';
+// import { loadDocuments } from "@graphql-tools/load";
+// import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import { codegen } from "@graphql-codegen/core";
 import * as fs from "fs-extra";
 // import * as glob from 'glob';
@@ -9,7 +10,7 @@ import { plugin as operationsPlugin } from "@graphql-codegen/typescript-operatio
 
 import { IntrospectionQuery } from "graphql";
 const {
-  introspectionQuery,
+  getIntrospectionQuery,
   graphql,
   buildClientSchema,
   parse,
@@ -49,7 +50,7 @@ exports.onPostBootstrap = async (
   // const docPromises = docFiles.map(async docGlob => {
   //  const _docGlob = path.join(directory, docGlob);
   //  try {
-  //    const doc = await loadDocuments(_docGlob, {});
+  //    const doc = await loadDocuments(_docGlob, {loaders: [new GraphQLFileLoader()]});
   //    return doc;
   //  } catch (e) {
   //    reporter.error('error when trying to parse schema, ignoring', e);
@@ -59,6 +60,7 @@ exports.onPostBootstrap = async (
   // const results = await Promise.all(docPromises);
   // const documents = results.reduce((acc, cur) => acc.concat(cur), []);
 
+  const introspectionQuery = getIntrospectionQuery();
   const res = await graphql(schema, introspectionQuery);
   const introspectSchema = res.data as IntrospectionQuery;
   const parsedSchema = parse(printSchema(buildClientSchema(introspectSchema)));
